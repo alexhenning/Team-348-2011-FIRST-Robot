@@ -66,7 +66,7 @@ public class DriveTrain {
 	    prevError = error;
 	    
 	    if (cnt%10 == 0) {
-		System.out.System.out.println();("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
+		System.out.println("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
 	    } cnt++;
 	    
 	    try {
@@ -76,9 +76,9 @@ public class DriveTrain {
 	}
     }
 
-    public void isStopped() {
+    public boolean isStopped() throws CANTimeoutException {
 	return (leftJag.getSpeed() != 0 &&
-		rightJag.getSpeed() != 0)
+		rightJag.getSpeed() != 0);
     }
     
     public void stop() throws CANTimeoutException {
@@ -90,7 +90,6 @@ public class DriveTrain {
 	    leftJag.setX(0);
 	    rightJag.setX(0);
 	}
-    }
     
     public void drive(double left, double right, Gyro gyro) throws CANTimeoutException {
 	if (Math.abs(left-right) <= .1) {

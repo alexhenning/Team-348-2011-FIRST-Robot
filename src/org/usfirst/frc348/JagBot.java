@@ -20,7 +20,7 @@ public class JagBot extends IterativeRobot {
     protected Arm arm;
     protected Gyro gyro;
     
-    public JagBot() {
+    public JagBot() throws CANTimeoutException {
 	System.out.println(SIG+"Creating JagBot");
 	breakout = new BreakoutBox();
 	leftJoy = new Joystick(1);
