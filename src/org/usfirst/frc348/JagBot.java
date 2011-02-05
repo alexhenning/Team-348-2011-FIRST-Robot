@@ -44,6 +44,7 @@ public class JagBot extends IterativeRobot {
 		dt.stop();
 		dt.turn180(gyro);
 	    } else {
+		dt.running = false;
 		dt.drive(left, right, gyro);
 	    }
 	} catch (CANTimeoutException e1) { e1.printStackTrace(); }

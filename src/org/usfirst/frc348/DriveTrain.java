@@ -44,31 +44,30 @@ public class DriveTrain {
 	return maxSpeed * Math.PI * (2/3);
     }
     
+    int cnt = 0; boolean running = false; double target; 
+    double error = 0, accumError = 0, prevError = 1, derror;
+    double P = .415, I = .00048, D = 11.5;	    
     public void turn180(Gyro gyro) throws CANTimeoutException {
 	if (!isStopped()) {
 	    stop();
-	} else {
-	    int cnt = 0;
-	    double error = 0, accumError = 0, prevError = 1, derror;
-	    double P = .415, I = .00048, D = 11.5;
-	    
 	    gyro.reset();
-	    try {
-		leftJag.setX(1);
-		rightJag.setX(-1);
-	    } catch (CANTimeoutException e) { e.printStackTrace(); }
-	    double stopTime = System.currentTimeMillis() + 3000;
-	
-	    // while (Math.abs(gyro.getAngle() - 180) > 1) {
-	    while (System.currentTimeMillis() < stopTime) {
-		error = (180 - gyro.getAngle()) / 180;
-		accumError += error;
-		derror = prevError - error;
-		prevError = error;
+	} else {
+	    if (!running) {
+		target = gyro.getAngle() + 180;
+		accumError = 0;
+		prevError = 1;
+	    } else {
+		running = true;
+	    }
 	    
-		if (cnt%10 == 0) {
-		    System.out.System.out.println();("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
-		} cnt++;
+	    error = (target - gyro.getAngle()) / 180;
+	    accumError += error;
+	    derror = prevError - error;
+	    prevError = error;
+	    
+	    if (cnt%10 == 0) {
+		System.out.System.out.println();("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
+	    } cnt++;
 	    
 	    try {
 		leftJag.setX(   P * error + I * accumError + D * derror);
