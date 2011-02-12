@@ -20,12 +20,12 @@ public class DriveTrain {
 	    leftJag.configEncoderCodesPerRev(-540);
 	    leftJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    leftJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-	    leftJag.setVoltageRampRate(18);
+//	    leftJag.setVoltageRampRate(18);
 	    
 	    rightJag.configEncoderCodesPerRev(540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-	    rightJag.setVoltageRampRate(18);
+//	    rightJag.setVoltageRampRate(18);
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	}
