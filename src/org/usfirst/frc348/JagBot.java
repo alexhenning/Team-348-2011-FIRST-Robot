@@ -74,16 +74,10 @@ public class JagBot extends IterativeRobot {
 	updateDashboard();
 	// debug();
     }
-    
-    public void disabledInit() {
-    	try {
-			arm.moveToPosition(5);
-		} catch (CANTimeoutException e) { e.printStackTrace(); }
-    }
 
     public void updateDashboard() {
 	dt.updateDashboard();
-//	arm.updateDashboard();
+	arm.updateDashboard();
 	SmartDashboard.log(gyro.getAngle(), "Gyro");
     }
     

@@ -20,12 +20,11 @@ public class DriveTrain {
 	    leftJag.configEncoderCodesPerRev(-540);
 	    leftJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    leftJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-//	    leftJag.setVoltageRampRate(18);
 	    
 	    rightJag.configEncoderCodesPerRev(540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-//	    rightJag.setVoltageRampRate(18);
+
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	}
@@ -140,12 +139,8 @@ public class DriveTrain {
     
     public void updateDashboard() {
     	try {
-//	    SmartDashboard.log(convertEncoderReading(leftJag.getSpeed()), "Left Speed");
-//	    SmartDashboard.log(convertEncoderReading(rightJag.getSpeed()), "Right Speed");
-//	    SmartDashboard.log(leftJag.getOutputVoltage(), "Left Voltage");
-	    SmartDashboard.log(leftJag.getOutputCurrent(), "Left Current");
-//	    SmartDashboard.log(rightJag.getOutputVoltage(), "Right Voltage");
-	    SmartDashboard.log(rightJag.getOutputCurrent(), "Right Current");
+	    SmartDashboard.log(convertEncoderReading(leftJag.getSpeed()), "Left Speed");
+	    SmartDashboard.log(convertEncoderReading(rightJag.getSpeed()), "Right Speed");
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
     }
 }
