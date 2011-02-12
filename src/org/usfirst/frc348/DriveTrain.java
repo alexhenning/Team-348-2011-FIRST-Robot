@@ -56,12 +56,12 @@ public class DriveTrain {
 	// }
 	int cnt = 0;
 	double error = 0, accumError = 0, prevError = 1, derror;
-	double P = .415, I = .00048, D = 11.5;
+	double P = .48, I = 0, D = 0;
 	    
 	gyro.reset();
 	try {
-	    leftJag.setX(1);
-	    rightJag.setX(-1);
+	    leftJag.setX(-1);
+	    rightJag.setX(1);
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
 	double stopTime = System.currentTimeMillis() + 3000;
 	    
@@ -75,10 +75,11 @@ public class DriveTrain {
 	    if (cnt%10 == 0) {
 		System.out.println("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
 	    } cnt++;
+	    SmartDashboard.log(gyro.getAngle(), "Gyro");
 	    
 	    try {
-		leftJag.setX(   P * error + I * accumError + D * derror);
-		rightJag.setX(-(P * error + I * accumError + D * derror));
+		leftJag.setX( -(P * error + I * accumError + D * derror));
+		rightJag.setX((P * error + I * accumError + D * derror));
 	    } catch (CANTimeoutException e) { e.printStackTrace(); }
 	}
     }
@@ -124,8 +125,8 @@ public class DriveTrain {
 		}
 	    } else {
 		// Turn in place
-		left *= .75;
-		right *= .75;
+		left *= .6;
+		right *= .6;
 	    }
 	}
 	
