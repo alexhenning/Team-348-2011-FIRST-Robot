@@ -139,13 +139,13 @@ public class DriveTrain {
     }
     
     public void updateDashboard() {
-//    	try {
+    	try {
 //	    SmartDashboard.log(convertEncoderReading(leftJag.getSpeed()), "Left Speed");
 //	    SmartDashboard.log(convertEncoderReading(rightJag.getSpeed()), "Right Speed");
 //	    SmartDashboard.log(leftJag.getOutputVoltage(), "Left Voltage");
-//	    SmartDashboard.log(leftJag.getOutputCurrent(), "Left Current");
+	    SmartDashboard.log(leftJag.getOutputCurrent(), "Left Current");
 //	    SmartDashboard.log(rightJag.getOutputVoltage(), "Right Voltage");
-//	    SmartDashboard.log(rightJag.getOutputCurrent(), "Right Current");
-//	} catch (CANTimeoutException e) { e.printStackTrace(); }
+	    SmartDashboard.log(rightJag.getOutputCurrent(), "Right Current");
+	} catch (CANTimeoutException e) { e.printStackTrace(); }
     }
 }
