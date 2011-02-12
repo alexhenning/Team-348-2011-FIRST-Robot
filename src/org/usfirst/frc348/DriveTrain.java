@@ -17,11 +17,11 @@ public class DriveTrain {
 	rightJag = Utils.getJaguar(rightID);
 	
 	try {
-	    leftJag.configEncoderCodesPerRev(-540);
+	    leftJag.configEncoderCodesPerRev(540);
 	    leftJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    leftJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
 	    
-	    rightJag.configEncoderCodesPerRev(540);
+	    rightJag.configEncoderCodesPerRev(-540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
 
@@ -50,9 +50,10 @@ public class DriveTrain {
     }
 
     public void turn180(Gyro gyro) throws CANTimeoutException {
-	while (!isStopped()) {
-	    stop();
-	}
+	// while (!isStopped()) {
+	//     stop();
+	//     System.out.println("Stopping.");
+	// }
 	int cnt = 0;
 	double error = 0, accumError = 0, prevError = 1, derror;
 	double P = .415, I = .00048, D = 11.5;
