@@ -125,8 +125,8 @@ public class DriveTrain {
 		}
 	    } else {
 		// Turn in place
-		left *= .6;
-		right *= .6;
+		left *= .675;
+		right *= .675;
 	    }
 	}
 	
