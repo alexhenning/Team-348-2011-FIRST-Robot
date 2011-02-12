@@ -2,7 +2,7 @@ package org.usfirst.frc348;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class DriveTrain {
@@ -17,13 +17,15 @@ public class DriveTrain {
 	rightJag = Utils.getJaguar(rightID);
 	
 	try {
-	    leftJag.configEncoderCodesPerRev(540);
+	    leftJag.configEncoderCodesPerRev(-540);
 	    leftJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    leftJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
+	    leftJag.setVoltageRampRate(18);
 	    
 	    rightJag.configEncoderCodesPerRev(540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
+	    rightJag.setVoltageRampRate(18);
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	}
@@ -41,7 +43,11 @@ public class DriveTrain {
 	  `returns' uses fancy math to convert it to feet per second
 	*/
 	double maxSpeed = Math.max(leftJag.getSpeed(), rightJag.getSpeed());
-	return maxSpeed * Math.PI * (2/3);
+	return convertEncoderReading(maxSpeed);
+    }
+
+    public double convertEncoderReading(double reading) {
+	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
     
     int cnt = 0; boolean running = false; double target; 
@@ -130,5 +136,16 @@ public class DriveTrain {
 	
 	leftJag.setX( left );
 	rightJag.setX( right );
+    }
+    
+    public void updateDashboard() {
+//    	try {
+//	    SmartDashboard.log(convertEncoderReading(leftJag.getSpeed()), "Left Speed");
+//	    SmartDashboard.log(convertEncoderReading(rightJag.getSpeed()), "Right Speed");
+//	    SmartDashboard.log(leftJag.getOutputVoltage(), "Left Voltage");
+//	    SmartDashboard.log(leftJag.getOutputCurrent(), "Left Current");
+//	    SmartDashboard.log(rightJag.getOutputVoltage(), "Right Voltage");
+//	    SmartDashboard.log(rightJag.getOutputCurrent(), "Right Current");
+//	} catch (CANTimeoutException e) { e.printStackTrace(); }
     }
 }
