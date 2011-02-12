@@ -48,24 +48,25 @@ public class DriveTrain {
     public double convertEncoderReading(double reading) {
 	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
-    
-    int cnt = 0; boolean running = false; double target; 
-    double error = 0, accumError = 0, prevError = 1, derror;
-    double P = .415, I = .00048, D = 11.5;	    
+
     public void turn180(Gyro gyro) throws CANTimeoutException {
-	if (!isStopped()) {
+	while (!isStopped()) {
 	    stop();
-	    gyro.reset();
-	} else {
-	    if (!running) {
-		target = gyro.getAngle() + 180;
-		accumError = 0;
-		prevError = 1;
-	    } else {
-		running = true;
-	    }
+	}
+	int cnt = 0;
+	double error = 0, accumError = 0, prevError = 1, derror;
+	double P = .415, I = .00048, D = 11.5;
 	    
-	    error = (target - gyro.getAngle()) / 180;
+	gyro.reset();
+	try {
+	    leftJag.setX(1);
+	    rightJag.setX(-1);
+	} catch (CANTimeoutException e) { e.printStackTrace(); }
+	double stopTime = System.currentTimeMillis() + 3000;
+	    
+	// while (Math.abs(gyro.getAngle() - 180) > 1) {
+	while (System.currentTimeMillis() < stopTime) {
+	    error = (180 - gyro.getAngle()) / 180;
 	    accumError += error;
 	    derror = prevError - error;
 	    prevError = error;
@@ -77,7 +78,7 @@ public class DriveTrain {
 	    try {
 		leftJag.setX(   P * error + I * accumError + D * derror);
 		rightJag.setX(-(P * error + I * accumError + D * derror));
-	    } catch (CANTimeoutException e) { e.printStackTrace(); }			
+	    } catch (CANTimeoutException e) { e.printStackTrace(); }
 	}
     }
 

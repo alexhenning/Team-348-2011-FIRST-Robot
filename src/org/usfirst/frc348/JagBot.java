@@ -42,10 +42,8 @@ public class JagBot extends IterativeRobot {
 	double right = -rightJoy.getY();
 	try {
 	    if (leftJoy.getTrigger() || rightJoy.getTrigger()) {
-		dt.stop();
 		dt.turn180(gyro);
 	    } else {
-		dt.running = false;
 		dt.drive(left, right, gyro);
 	    }
 	} catch (CANTimeoutException e1) { e1.printStackTrace(); }
