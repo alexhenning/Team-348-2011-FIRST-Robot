@@ -85,7 +85,7 @@ public class Arm implements PIDSource {
     }
 
     public void open() {
-	servo.set(.1);
+	servo.set(.2);
     }
 
     public void close() {
