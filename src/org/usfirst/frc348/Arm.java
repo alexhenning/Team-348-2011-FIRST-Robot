@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm implements PIDSource {
     public CANJaguar jag;
     protected Servo servo;
-    protected DigitalInput limit;
+    protected DigitalInput limit, banner;
     protected PIDController pid;
     protected double target;
     protected boolean magicMode = true, placing = false;
@@ -19,7 +19,8 @@ public class Arm implements PIDSource {
     // Position to move the arm to based off of the controller
     protected static double positions[] = {-1, 1.82, 1.660, 0.915, 0.700, 0};
 
-    public Arm(int jagID, int servoPort, int limitPort) throws CANTimeoutException {
+    public Arm(int jagID, int servoPort, int limitPort, int bannerPort)
+    										throws CANTimeoutException {
     	jag = Utils.getJaguar(jagID);
     	jag.configEncoderCodesPerRev(360);
     	jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
@@ -30,6 +31,7 @@ public class Arm implements PIDSource {
 
     	servo = new Servo(servoPort);
     	limit = new DigitalInput(limitPort);
+    	banner = new DigitalInput(bannerPort);
     	
     	pid = new PIDController(-4, 0, 0, this, jag);
     	pid.setInputRange(0, 1.8);
@@ -94,8 +96,11 @@ public class Arm implements PIDSource {
 
     public void updateDashboard() {
     	try {
+    		System.out.println("Limit: "+limit.get()+" Banner: "+banner.get());
 			SmartDashboard.log(jag.getPosition(), "Arm");
 		    SmartDashboard.log(1.0 - servo.getPosition(), "Grabber");
+		    SmartDashboard.log(limit.get(), "Arm Limit");
+		    SmartDashboard.log(banner.get(), "Banner");
 //		    SmartDashboard.log(pid.getError(), "PID Error");		    
     	} catch (CANTimeoutException e) { e.printStackTrace(); }
 

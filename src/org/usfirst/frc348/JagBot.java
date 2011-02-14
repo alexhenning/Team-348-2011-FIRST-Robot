@@ -24,7 +24,7 @@ public class JagBot extends IterativeRobot {
 	rightJoy = new Joystick(2);
 	
 	dt = new DriveTrain(3, 4);
-	arm = new Arm(2, 1, 1);
+	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
     }
     
