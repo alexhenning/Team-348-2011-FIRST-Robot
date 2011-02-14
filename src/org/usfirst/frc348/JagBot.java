@@ -69,6 +69,7 @@ public class JagBot extends IterativeRobot {
 	    }
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
 
+	arm.periodic();
 	updateDashboard();
 	// debug();
     }

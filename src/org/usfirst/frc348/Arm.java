@@ -17,34 +17,26 @@ public class Arm implements PIDSource {
     protected boolean magicMode = true, placing = false;
 
     // Position to move the arm to based off of the controller
-    protected static double positions[] = {-1, 1.82, 1.660, 0.915, 0.700, 0};
+    protected static double positions[] = {-1, 1.82, 1.660, 0.915, 0.700, -0.2};
 
-    public Arm(int jagID, int servoPort, int limitPort, int bannerPort)
-    										throws CANTimeoutException {
+    public Arm(int jagID, int servoPort, int limitPort, int bannerPort) throws CANTimeoutException {
     	jag = Utils.getJaguar(jagID);
     	jag.configEncoderCodesPerRev(360);
     	jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
     	jag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
-    	jag.configSoftPositionLimits(0, 1.8);
-    	jag.enableControl(0);
-    	jag.enableControl(0); // Jaguar bug nonsense
-
+    	
     	servo = new Servo(servoPort);
     	limit = new DigitalInput(limitPort);
     	banner = new DigitalInput(bannerPort);
     	
     	pid = new PIDController(-4, 0, 0, this, jag);
-    	pid.setInputRange(0, 1.8);
     	pid.enable();
     }
 
     public void setManualMode() {
 	if (magicMode) {
 	    magicMode = false;
-	    pid.disable();
-	    try {
-		jag.disableSoftPositionLimits();
-	    } catch (CANTimeoutException e) { e.printStackTrace(); }
+	    pid.disable();	    
 	}
     }
 
@@ -52,21 +44,31 @@ public class Arm implements PIDSource {
 	if (!magicMode) {
 	    magicMode = true;
 	    pid.enable();
-	    try {
-		jag.configSoftPositionLimits(0, 1.8);
-	    } catch (CANTimeoutException e) { e.printStackTrace(); }
 	}
     }
 
+    public boolean prevLimit = true;
+    public void periodic() {
+	if (limit.get() != prevLimit) {
+	    prevLimit = limit.get();
+	    if (limit.get()) {
+		pid.setOutputRange(-1, 0);
+		zeroEncoder();
+	    } else {
+		pid.setOutputRange(-1, 1);
+	    }
+	}
+    }
+    
     public void manualMove(int pos) throws CANTimeoutException {
 	double out = 0;
 	if (pos == 1) {
 	    out = -1;
 	} else if (pos == 2) {
 	    out = -.5;
-	} else if (pos == 4) {
+	} else if (pos == 4 && !limit.get()) {
 	    out = .25;
-	} else if (pos == 5) {
+	} else if (pos == 5 && !limit.get()) {
 	    out = .75;
 	}
 	jag.setX(out);
@@ -86,29 +88,36 @@ public class Arm implements PIDSource {
 	}
     }
 
-    public void open() {
-	servo.set(.2);
+    public double getArmPosition() {
+	try {
+	    return jag.getPosition() - zero;
+	} catch (CANTimeoutException e) { e.printStackTrace(); return zero; }
     }
 
-    public void close() {
+    private double zero = 0;
+    public void zeroEncoder() {
+    	try {
+	    zero = jag.getPosition();
+	} catch (CANTimeoutException e) { e.printStackTrace(); }
+    }
+
+    public void open() {
 	servo.set(1);
     }
 
-    public void updateDashboard() {
-    	try {
-    		System.out.println("Limit: "+limit.get()+" Banner: "+banner.get());
-			SmartDashboard.log(jag.getPosition(), "Arm");
-		    SmartDashboard.log(1.0 - servo.getPosition(), "Grabber");
-		    SmartDashboard.log(limit.get(), "Arm Limit");
-		    SmartDashboard.log(banner.get(), "Banner");
-//		    SmartDashboard.log(pid.getError(), "PID Error");		    
-    	} catch (CANTimeoutException e) { e.printStackTrace(); }
+    public void close() {
+	servo.set(.4);
+    }
 
+    public void updateDashboard() {
+	    System.out.println("Limit: "+limit.get()+" Banner: "+banner.get());
+	    SmartDashboard.log(getArmPosition(), "Arm");
+	    SmartDashboard.log(1.0 - servo.getPosition(), "Grabber");
+	    SmartDashboard.log(limit.get(), "Arm Limit");
+	    SmartDashboard.log(banner.get(), "Banner");
     }
 
     public double pidGet() {
-			try {
-				return jag.getPosition();
-			} catch (CANTimeoutException e) { e.printStackTrace(); return 0; }
-	}
+	return getArmPosition();
+    }
 }
