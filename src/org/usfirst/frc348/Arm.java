@@ -12,7 +12,7 @@ public class Arm implements PIDSource {
     public CANJaguar jag;
     protected Servo servo;
     protected DigitalInput limit, banner;
-    protected PIDController pid;
+    public PIDController pid;
     protected double target;
     protected boolean magicMode = true, placing = false;
 
@@ -92,6 +92,14 @@ public class Arm implements PIDSource {
 	try {
 	    return jag.getPosition() - zero;
 	} catch (CANTimeoutException e) { e.printStackTrace(); return zero; }
+    }
+
+    public boolean atPole() {
+	return banner.get();
+    }
+
+    public boolean atBottom() {
+	return limit.get();
     }
 
     private double zero = 0;

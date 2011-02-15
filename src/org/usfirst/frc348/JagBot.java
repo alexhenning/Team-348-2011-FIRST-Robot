@@ -28,14 +28,52 @@ public class JagBot extends IterativeRobot {
 	gyro = new Gyro(2);
     }
     
+    int stage = 0; double leftEncoder, rightEncoder;
+    public void autonomousInit() {
+    	stage = 0;
+    	leftEncoder = 0;
+	rightEncoder = 0;
+	arm.setManualMode();
+    }
+    
     public void autonomousPeriodic() {
-	
+    	try {
+	    if (stage == 0) {
+		arm.manualMove(5);
+		arm.close();
+		if (arm.atBottom()) { // Success
+		    stage += 1;
+		    arm.setMagicMode();
+		}
+	    } else if (stage == 1) {	    	
+		arm.moveToPosition(2);
+		arm.close();
+		try {
+			Thread.sleep(25);
+		} catch (InterruptedException e) { e.printStackTrace();	}
+		if (arm.pid.getError() < 0.3) { // Success
+		    stage += 1;
+		}
+	    } else if (stage == 2) {
+		arm.moveToPosition(2);
+		arm.close();
+		dt.drive(0.2, 0.2, gyro);
+		if (arm.atPole()) { // Success
+		    stage += 1;
+		}
+	    } else if (stage == 3) {
+		arm.open();
+	    }
+    	} catch (CANTimeoutException e1) { e1.printStackTrace(); }
+
+    	updateDashboard();
+	arm.periodic();
     }
     
     public void teleopPeriodic() {
     	try {
-			breakout.update();
-		} catch (EnhancedIOException e2) { e2.printStackTrace(); }
+	    breakout.update();
+	} catch (EnhancedIOException e2) { e2.printStackTrace(); }
     	
 	// Joystick values are backwards
 	double left = -leftJoy.getY();
