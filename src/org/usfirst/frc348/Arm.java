@@ -110,11 +110,11 @@ public class Arm implements PIDSource {
     }
 
     public void open() {
-	servo.set(1);
+	servo.set(0);
     }
 
     public void close() {
-	servo.set(.4);
+	servo.set(1);
     }
 
     public void updateDashboard() {

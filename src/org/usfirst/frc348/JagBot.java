@@ -1,5 +1,7 @@
 package org.usfirst.frc348;
 
+import org.usfirst.frc348.auton.Autonomous;
+
 import edu.wpi.first.wpilibj.DriverStationEnhancedIO.EnhancedIOException;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -11,11 +13,12 @@ public class JagBot extends IterativeRobot {
     private String SIG = "[JagBot] ";
     boolean DEBUG = true; int debugCounter = 0;
     boolean MANUAL_ARM_CONTROL = true;
-    protected BreakoutBox breakout;
-    protected Joystick leftJoy, rightJoy;
-    protected DriveTrain dt;
-    protected Arm arm;
-    protected Gyro gyro;
+    public BreakoutBox breakout;
+    public Joystick leftJoy, rightJoy;
+    public DriveTrain dt;
+    public Arm arm;
+    public Gyro gyro;
+    public Autonomous auton;
     
     public JagBot() throws CANTimeoutException {
 	System.out.println(SIG+"Creating JagBot");
@@ -26,6 +29,7 @@ public class JagBot extends IterativeRobot {
 	dt = new DriveTrain(3, 4);
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
+	auton = new Autonomous(this);
     }
     
     int stage = 0; double leftEncoder, rightEncoder;
@@ -37,35 +41,7 @@ public class JagBot extends IterativeRobot {
     }
     
     public void autonomousPeriodic() {
-    	try {
-	    if (stage == 0) {
-		arm.manualMove(5);
-		arm.close();
-		if (arm.atBottom()) { // Success
-		    stage += 1;
-		    arm.setMagicMode();
-		}
-	    } else if (stage == 1) {	    	
-		arm.moveToPosition(2);
-		arm.close();
-		try {
-			Thread.sleep(25);
-		} catch (InterruptedException e) { e.printStackTrace();	}
-		if (arm.pid.getError() < 0.3) { // Success
-		    stage += 1;
-		}
-	    } else if (stage == 2) {
-		arm.moveToPosition(2);
-		arm.close();
-		dt.drive(0.2, 0.2, gyro);
-		if (arm.atPole()) { // Success
-		    stage += 1;
-		}
-	    } else if (stage == 3) {
-		arm.open();
-	    }
-    	} catch (CANTimeoutException e1) { e1.printStackTrace(); }
-
+    	auton.periodic();
     	updateDashboard();
 	arm.periodic();
     }
