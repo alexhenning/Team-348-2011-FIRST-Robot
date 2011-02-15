@@ -3,7 +3,9 @@ package org.usfirst.frc348.auton;
 import org.usfirst.frc348.JagBot;
 
 public class Autonomous {
-    protected Stage[] auton, centerTop, outerTop;
+    protected Stage[] auton,
+                      centerTop = {null, null, null, null},
+                      outerTop = {null, null, null, null};
     protected int current;
 
     public Autonomous(JagBot bot) {

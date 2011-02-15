@@ -17,11 +17,12 @@ public class ZeroArm implements Stage {
     }
     
     public void enter() {
-	bot.arm.setManualMode();
+    	bot.arm.setManualMode();
     }
     
     public void periodic() {
 	try {
+		bot.arm.setManualMode();
 	    bot.arm.manualMove(5);
 	} catch (CANTimeoutException e) { 
 	    e.printStackTrace();

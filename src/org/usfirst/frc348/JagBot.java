@@ -31,15 +31,7 @@ public class JagBot extends IterativeRobot {
 	gyro = new Gyro(2);
 	auton = new Autonomous(this);
     }
-    
-    int stage = 0; double leftEncoder, rightEncoder;
-    public void autonomousInit() {
-    	stage = 0;
-    	leftEncoder = 0;
-	rightEncoder = 0;
-	arm.setManualMode();
-    }
-    
+            
     public void autonomousPeriodic() {
     	auton.periodic();
     	updateDashboard();
