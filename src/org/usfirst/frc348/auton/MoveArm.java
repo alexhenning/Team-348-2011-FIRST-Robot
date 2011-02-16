@@ -6,6 +6,7 @@ package org.usfirst.frc348.auton;
 
 import org.usfirst.frc348.JagBot;
 
+import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class MoveArm implements Stage {
@@ -18,17 +19,21 @@ public class MoveArm implements Stage {
 	this.position = position;
     }
     
+    protected int timer;
     public void enter() {
 	bot.arm.setMagicMode();
+	timer = 0;
     }
     
     public void periodic() {
+    timer += 1;
 	try {
 	    bot.arm.moveToPosition(position);
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	    error = true;
 	}
+	SmartDashboard.log(bot.arm.pid.getError(), "PID error");
     }
     
     public void exit() {
@@ -36,7 +41,7 @@ public class MoveArm implements Stage {
     }
     
     public boolean isDone() {
-	return bot.arm.pid.getError() < 0.1;
+	return bot.arm.pid.getError() < 0.3 && timer > 10;
     }
     
     public boolean isError() {

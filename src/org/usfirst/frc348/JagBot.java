@@ -34,8 +34,8 @@ public class JagBot extends IterativeRobot {
             
     public void autonomousPeriodic() {
     	auton.periodic();
-    	updateDashboard();
 	arm.periodic();
+	updateDashboard();
     }
     
     public void teleopPeriodic() {

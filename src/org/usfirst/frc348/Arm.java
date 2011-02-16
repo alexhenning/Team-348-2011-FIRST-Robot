@@ -17,7 +17,7 @@ public class Arm implements PIDSource {
     protected boolean magicMode = true, placing = false;
 
     // Position to move the arm to based off of the controller
-    protected static double positions[] = {-1, 1.82, 1.660, 0.915, 0.700, -0.2};
+    protected static double positions[] = {-1, 1.82, 1.680, 0.915, 0.700, -2};
 
     public Arm(int jagID, int servoPort, int limitPort, int bannerPort) throws CANTimeoutException {
     	jag = Utils.getJaguar(jagID);
@@ -75,7 +75,6 @@ public class Arm implements PIDSource {
     }
 
     public void moveToPosition(int pos) throws CANTimeoutException {
-//    	SmartDashboard.log(pos, "Target Position");
 	placing = false;
 	pid.setSetpoint(positions[pos]);
     }
@@ -118,7 +117,6 @@ public class Arm implements PIDSource {
     }
 
     public void updateDashboard() {
-	    System.out.println("Limit: "+limit.get()+" Banner: "+banner.get());
 	    SmartDashboard.log(getArmPosition(), "Arm");
 	    SmartDashboard.log(1.0 - servo.getPosition(), "Grabber");
 	    SmartDashboard.log(limit.get(), "Arm Limit");
@@ -126,6 +124,7 @@ public class Arm implements PIDSource {
     }
 
     public double pidGet() {
+	periodic();
 	return getArmPosition();
     }
 }

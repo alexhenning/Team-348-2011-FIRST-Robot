@@ -6,17 +6,19 @@ package org.usfirst.frc348.auton;
 
 import org.usfirst.frc348.JagBot;
 
+import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class DriveForward implements Stage {
     protected JagBot bot;
     protected boolean error = false;
-    protected double distance, gain;
+    protected double distance, goodEnough, gain;
     protected double leftStart, rightStart, leftDist, rightDist;
     
-    public DriveForward(JagBot bot, double feet, double gain) {
+    public DriveForward(JagBot bot, double feet, double goodEnough, double gain) {
 	this.bot = bot;
 	this.distance = feet;
+	this.goodEnough = goodEnough;
 	this.gain = gain;
     }
     
@@ -34,6 +36,9 @@ public class DriveForward implements Stage {
 	try {
 	    leftDist = bot.dt.getLeftDist() - leftStart;
 	    rightDist = bot.dt.getRightDist() - rightStart;
+	    
+	    SmartDashboard.log(leftDist, "Left Distance");
+	    SmartDashboard.log(rightDist, "Right Distance");
 
 	    double left = gain * ((distance - leftDist) / distance);
 	    double right = gain * ((distance - rightDist) / distance);
@@ -50,7 +55,7 @@ public class DriveForward implements Stage {
     }
     
     public boolean isDone() {
-	return ((leftDist + rightDist) / 2) > distance;
+	return ((leftDist + rightDist) / 2) > goodEnough;
     }
     
     public boolean isError() {
