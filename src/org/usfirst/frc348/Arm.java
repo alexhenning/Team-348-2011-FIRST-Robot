@@ -47,16 +47,12 @@ public class Arm implements PIDSource {
 	}
     }
 
-    public boolean prevLimit = true;
     public void periodic() {
-	if (limit.get() != prevLimit) {
-	    prevLimit = limit.get();
-	    if (limit.get()) {
-		pid.setOutputRange(-1, 0);
-		zeroEncoder();
-	    } else {
-		pid.setOutputRange(-1, 1);
-	    }
+	if (limit.get()) {
+	    pid.setOutputRange(-1, 0);
+	    zeroEncoder();
+	} else {
+	    pid.setOutputRange(-1, 1);
 	}
     }
     

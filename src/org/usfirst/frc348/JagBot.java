@@ -29,9 +29,13 @@ public class JagBot extends IterativeRobot {
 	dt = new DriveTrain(3, 4);
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
-	auton = new Autonomous(this);
+	auton = new Autonomous(this, 4, 3);
     }
             
+    public void autonomousInit() {
+    	auton.restart();
+    }
+    
     public void autonomousPeriodic() {
     	auton.periodic();
 	arm.periodic();
