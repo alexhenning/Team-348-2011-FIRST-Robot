@@ -81,12 +81,12 @@ public class JagBot extends IterativeRobot {
 
 	arm.periodic();
 	updateDashboard();
-	// debug();
+	 debug();
     }
 
     public void updateDashboard() {
 	dt.updateDashboard();
-	arm.updateDashboard();
+	//arm.updateDashboard();
 	SmartDashboard.log(gyro.getAngle(), "Gyro");
     }
     

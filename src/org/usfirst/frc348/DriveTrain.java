@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class DriveTrain {
-    public CANJaguar leftJag, rightJag;
+    protected CANJaguar leftJag, rightJag;
     double leftPrevOut, rightPrevOut;
     long prevTime;
     double prevAngle;
@@ -21,7 +21,7 @@ public class DriveTrain {
 	    leftJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    leftJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
 	    
-	    rightJag.configEncoderCodesPerRev(-540);
+	    rightJag.configEncoderCodesPerRev(540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
 
@@ -49,8 +49,16 @@ public class DriveTrain {
 	return rotationsToDist(leftJag.getPosition());
     }
 
+    public double getLeftSpeed() throws CANTimeoutException {
+	return convertEncoderReading(leftJag.getSpeed());
+    }
+
     public double getRightDist() throws CANTimeoutException {
-	return rotationsToDist(leftJag.getPosition());
+	return -rotationsToDist(rightJag.getPosition());
+    }
+
+    public double getRightSpeed() throws CANTimeoutException {
+	return -convertEncoderReading(rightJag.getSpeed());
     }
     
     public double rotationsToDist(double reading) {
@@ -137,8 +145,8 @@ public class DriveTrain {
 		}
 	    } else {
 		// Turn in place
-		left *= .72;
-		right *= .72;
+		left *= .8;
+		right *= .8;
 	    }
 	}
 	
@@ -154,8 +162,11 @@ public class DriveTrain {
     
     public void updateDashboard() {
     	try {
-	    SmartDashboard.log(convertEncoderReading(leftJag.getSpeed()), "Left Speed");
-	    SmartDashboard.log(convertEncoderReading(rightJag.getSpeed()), "Right Speed");
+	    SmartDashboard.log(getLeftSpeed(), "Left Speed");
+	    SmartDashboard.log(getRightSpeed(), "Right Speed");
+	    
+	    SmartDashboard.log(getLeftDist(), "Left Distance");
+	    SmartDashboard.log(getRightDist(), "Right Distance");
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
     }
 }

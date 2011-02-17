@@ -39,7 +39,7 @@ public class PlacePiece implements Stage {
     }
     
     public boolean isDone() {
-	return timer > 80;
+	return timer > 30;
     }
     
     public boolean isError() {

@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Autonomous {
     protected Stage[] auton,
-	              centerTop = {null, null, null},
-                      outerTop = {null, null, null};
+	              noAuton = {},
+                      centerTop = {null, null, null, null},
+	              outerTop = {null, null, null, null};
     protected DigitalInput lowBit, highBit;
     protected int current;
 
@@ -18,11 +19,13 @@ public class Autonomous {
     	centerTop[0] = new MoveArm(bot, 1);
     	centerTop[1] = new DriveForward(bot, 20, 16.25, 0.7);
     	centerTop[2] = new PlacePiece(bot);
+	centerTop[3] = new DriveBackward(bot, 16);
 	
     	//outerTop[0] = new ZeroArm(bot);
     	outerTop[0] = new MoveArm(bot, 2);
     	outerTop[1] = new DriveForward(bot, 20, 16.25, 0.7);
     	outerTop[2] = new PlacePiece(bot);
+	outerTop[3] = new DriveBackward(bot, 16);
     	
     	restart();
     }
@@ -34,7 +37,24 @@ public class Autonomous {
     }
     
     public Stage[] getAutonomousMode() {
-    	return outerTop;
+	if (autonNumber() == 3) {
+	    return centerTop;
+	} else if (autonNumber() == 2 || autonNumber() == 1) {
+	    return outerTop;
+	} else {
+	    return noAuton;
+	}
+    }
+
+    public int autonNumber() {
+	int mode = 0;
+	if (lowBit.get()) {
+	    mode += 1;
+	}
+	if (highBit.get()) {
+	    mode += 2;
+	}
+	return mode;
     }
 
     public void periodic() {
