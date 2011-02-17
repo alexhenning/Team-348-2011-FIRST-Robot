@@ -7,25 +7,27 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Autonomous {
     protected Stage[] auton,
 	              noAuton = {},
-                      centerTop = {null, null, null, null},
-	              outerTop = {null, null, null, null};
+                      centerTop = {null, null, null, null, null},
+	              outerTop = {null, null, null, null, null};
     protected DigitalInput lowBit, highBit;
-    protected int current;
+    public int current;
 
     public Autonomous(JagBot bot, int lowPort, int highPort) {
 	lowBit = new DigitalInput(lowPort);
 	highBit = new DigitalInput(highPort);
 	
-    	centerTop[0] = new MoveArm(bot, 1);
-    	centerTop[1] = new DriveForward(bot, 20, 16.25, 0.7);
+	centerTop[0] = new MoveArm(bot, 1);
+    	centerTop[1] = new DriveForward(bot, 20, 16.5, 0.7);
     	centerTop[2] = new PlacePiece(bot);
-	centerTop[3] = new DriveBackward(bot, 16);
+	centerTop[3] = new DriveBackward(bot, 8);
+	centerTop[4] = new MoveArm(bot, 5);
 	
     	//outerTop[0] = new ZeroArm(bot);
     	outerTop[0] = new MoveArm(bot, 2);
     	outerTop[1] = new DriveForward(bot, 20, 16.25, 0.7);
     	outerTop[2] = new PlacePiece(bot);
-	outerTop[3] = new DriveBackward(bot, 16);
+    	outerTop[3] = new DriveBackward(bot, 8);
+    	outerTop[4] = new MoveArm(bot, 5);
     	
     	restart();
     }
@@ -33,16 +35,18 @@ public class Autonomous {
     public void restart() {
     	auton = getAutonomousMode();
     	current = 0;
+    	if (current < auton.length) {
     	auton[current].enter();
+    	}
     }
     
     public Stage[] getAutonomousMode() {
 	if (autonNumber() == 3) {
-	    return centerTop;
-	} else if (autonNumber() == 2 || autonNumber() == 1) {
-	    return outerTop;
-	} else {
 	    return noAuton;
+	} else if (autonNumber() == 2) {
+	    return centerTop;
+	} else {
+	    return outerTop;
 	}
     }
 
@@ -56,11 +60,21 @@ public class Autonomous {
 	}
 	return mode;
     }
+    
+    public String getAutonomousName() {
+	if (autonNumber() == 3) {
+	    return "No Autonomous";
+	} else if (autonNumber() == 2) {
+	    return "Top Center";
+	} else {
+	    return "Top Outer";
+	}
+    }
 
     public void periodic() {
 	System.out.println("HighBit: "+highBit.get()+
 			   " LowBit: "+lowBit.get());
-    	if (current < auton.length) {
+	if (current < auton.length) {
 	    auton[current].periodic();
 	    if (auton[current].isDone()) {
 		auton[current].exit();

@@ -41,7 +41,7 @@ public class MoveArm implements Stage {
     }
     
     public boolean isDone() {
-	return bot.arm.pid.getError() < 0.3 && timer > 10;
+	return bot.arm.pid.getError() < 0.5 && timer > 10;
     }
     
     public boolean isError() {

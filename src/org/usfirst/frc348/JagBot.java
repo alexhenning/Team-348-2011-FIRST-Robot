@@ -3,6 +3,7 @@ package org.usfirst.frc348;
 import org.usfirst.frc348.auton.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStationEnhancedIO.EnhancedIOException;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,6 +23,10 @@ public class JagBot extends IterativeRobot {
     
     public JagBot() throws CANTimeoutException {
 	System.out.println(SIG+"Creating JagBot");
+	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kMain6, 1, 
+		"Not Ready --- Initializing...");
+	DriverStationLCD.getInstance().updateLCD();
+	
 	breakout = new BreakoutBox();
 	leftJoy = new Joystick(1);
 	rightJoy = new Joystick(2);
@@ -30,6 +35,8 @@ public class JagBot extends IterativeRobot {
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
 	auton = new Autonomous(this, 4, 3);
+	
+	updateDashboard();
     }
             
     public void autonomousInit() {
@@ -81,13 +88,24 @@ public class JagBot extends IterativeRobot {
 
 	arm.periodic();
 	updateDashboard();
-	 debug();
+//	 debug();
+    }
+    
+    public void disabledPeriodic() {
+    	updateDashboard();
     }
 
     public void updateDashboard() {
 	dt.updateDashboard();
-	//arm.updateDashboard();
+	arm.updateDashboard();
 	SmartDashboard.log(gyro.getAngle(), "Gyro");
+	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kMain6, 1, 
+			"Ready                      ");
+	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3, 1, 
+			"Autonomous Stage: "+auton.current);
+	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, 
+			"Mode: "+auton.getAutonomousName());
+	DriverStationLCD.getInstance().updateLCD();
     }
     
     public void debug() {

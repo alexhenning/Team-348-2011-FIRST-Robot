@@ -17,7 +17,7 @@ public class Arm implements PIDSource {
     protected boolean magicMode = true, placing = false;
 
     // Position to move the arm to based off of the controller
-    protected static double positions[] = {-1, 1.82, 1.680, 0.915, 0.700, -2};
+    protected static double positions[] = {-1, 1.87, 1.680, 0.915, 0.700, -2};
 
     public Arm(int jagID, int servoPort, int limitPort, int bannerPort) throws CANTimeoutException {
     	jag = Utils.getJaguar(jagID);
