@@ -133,15 +133,15 @@ public class DriveTrain {
 	    // Make turning more controllable
 	    if (left > 0 && right > 0) {
 		if (left > right) {
-		    left = right + ((left - right) / 2) - 0.05;
+		    left = right + 3 * ((left - right) / 4) - 0.05;
 		} else {
-		    right = left + ((right - left) / 2) - 0.05;
+		    right = left + 3 * ((right - left) / 4) - 0.05;
 		}
 	    } else if (left < 0 && right < 0) {
 		if (left > right) {
-		    right = left - ((left - right) / 2) - 0.05;
+		    right = left - 3 * ((left - right) / 4) + 0.05;
 		} else {
-		    left = right - ((right - left) / 2) - 0.05;
+		    left = right - 3 * ((right - left) / 4) + 0.05;
 		}
 	    } else {
 		// Turn in place
