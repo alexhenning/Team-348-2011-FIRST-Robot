@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SmartDashboard;
+import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class JagBot extends IterativeRobot {
@@ -20,6 +21,7 @@ public class JagBot extends IterativeRobot {
     public Arm arm;
     public Gyro gyro;
     public Autonomous auton;
+    public AxisCamera ac;
     
     public JagBot() throws CANTimeoutException {
 	System.out.println(SIG+"Creating JagBot");
@@ -35,7 +37,8 @@ public class JagBot extends IterativeRobot {
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
 	auton = new Autonomous(this, 4, 3);
-	
+
+	ac = AxisCamera.getInstance();
 	updateDashboard();
     }
             
