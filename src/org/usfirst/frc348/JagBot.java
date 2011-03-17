@@ -55,6 +55,11 @@ public class JagBot extends IterativeRobot {
 	arm.periodic();
 	updateDashboard();
     }
+
+    public long startTime;
+    public void teleopInit() {
+	startTime = System.currentTimeMillis();
+    }
     
     public void teleopPeriodic() {
     	try {
@@ -114,7 +119,7 @@ public class JagBot extends IterativeRobot {
 	dt.updateDashboard();
 	arm.updateDashboard();
 
-	SmartDashboard.log(-1, "Time"); // TODO: Fix
+	SmartDashboard.log((System.currentTimeMillis() - startTime)/1000, "Time");
 
 	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kMain6, 1, 
 			"Ready                      ");
