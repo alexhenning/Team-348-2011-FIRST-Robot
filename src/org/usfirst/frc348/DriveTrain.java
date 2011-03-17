@@ -162,11 +162,9 @@ public class DriveTrain {
     
     public void updateDashboard() {
     	try {
-	    SmartDashboard.log(getLeftSpeed(), "Left Speed");
-	    SmartDashboard.log(getRightSpeed(), "Right Speed");
-	    
-	    SmartDashboard.log(getLeftDist(), "Left Distance");
-	    SmartDashboard.log(getRightDist(), "Right Distance");
+	    SmartDashboard.log(Math.max(Math.abs(getLeftSpeed()),
+					Math.abs(getRightSpeed())),
+			       "Speed");
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
     }
 }

@@ -113,7 +113,9 @@ public class JagBot extends IterativeRobot {
     public void updateDashboard() {
 	dt.updateDashboard();
 	arm.updateDashboard();
-	SmartDashboard.log(gyro.getAngle(), "Gyro");
+
+	SmartDashboard.log(-1, "Time"); // TODO: Fix
+
 	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kMain6, 1, 
 			"Ready                      ");
 	DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3, 1, 

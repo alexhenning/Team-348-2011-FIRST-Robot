@@ -114,9 +114,8 @@ public class Arm implements PIDSource {
 
     public void updateDashboard() {
 	    SmartDashboard.log(getArmPosition(), "Arm");
-	    SmartDashboard.log(1.0 - servo.getPosition(), "Grabber");
-	    SmartDashboard.log(limit.get(), "Arm Limit");
-	    SmartDashboard.log(banner.get(), "Banner");
+	    SmartDashboard.log(servo.getPosition() < 0.25, "Grabber");
+	    SmartDashboard.log(limit.get(), "Limit");
     }
 
     public double pidGet() {
