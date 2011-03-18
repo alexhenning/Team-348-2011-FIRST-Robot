@@ -39,7 +39,6 @@ public class JagBot extends IterativeRobot {
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
 	deployment = new Servo(2);
-	deployment.set(0);
 	auton = new Autonomous(this, 4, 3);
 
 	ac = AxisCamera.getInstance();
@@ -70,11 +69,7 @@ public class JagBot extends IterativeRobot {
 	double left = -leftJoy.getY();
 	double right = -rightJoy.getY();
 	try {
-	    if (leftJoy.getTrigger() || rightJoy.getTrigger()) {
-		dt.turn180(gyro);
-	    } else {
-		dt.drive(left, right, gyro);
-	    }
+	    dt.drive(left, right, gyro);
 	} catch (CANTimeoutException e1) { e1.printStackTrace(); }
 
 	if (breakout.closeGrabber || breakout.openGrabber) {
@@ -99,16 +94,14 @@ public class JagBot extends IterativeRobot {
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
 
 	if (breakout.releaseMinibot) {
-	    deployMinibot();
+	    deployment.set(0);
+	} else {
+	    deployment.set(1);
 	}
 
 	arm.periodic();
-	updateDashboard();
+	//	updateDashboard();
 //	 debug();
-    }
-
-    public void deployMinibot() {
-	deployment.set(1);
     }
     
     public void disabledPeriodic() {
