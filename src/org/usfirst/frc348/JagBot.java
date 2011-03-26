@@ -128,9 +128,6 @@ public class JagBot extends IterativeRobot {
 	if (DEBUG && debugCounter%10 == 0) {
 		
 	    try {
-		// System.out.println("Speed: "+dt.getSpeed()+" Gyro: "+gyro.getAngle()+" Turn Rate: "+dt.turnSpeed);
-		// System.out.println("Left Currents: "+dt.leftJag.getOutputCurrent()+
-		// 				"--- Right Current: "+dt.rightJag.getOutputCurrent()+"/");
 		System.out.println("Left Encoder: "+dt.leftJag.getPosition()+"/"+dt.leftJag.getSpeed()+
 				   " --- Right Encoder: "+dt.rightJag.getPosition()+"/"+dt.rightJag.getSpeed());
 	    } catch (Exception e) {
