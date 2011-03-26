@@ -24,11 +24,9 @@ public class DriveTrain {
 	    rightJag.configEncoderCodesPerRev(540);
 	    rightJag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
 	    rightJag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	}
-	
 	
 	leftPrevOut = 0;
 	rightPrevOut = 0;
@@ -39,7 +37,6 @@ public class DriveTrain {
     public double getLeftDist() throws CANTimeoutException {
 	return rotationsToDist(leftJag.getPosition());
     }
-
     public double getLeftSpeed() throws CANTimeoutException {
 	return convertEncoderReading(leftJag.getSpeed());
     }
@@ -47,7 +44,6 @@ public class DriveTrain {
     public double getRightDist() throws CANTimeoutException {
 	return -rotationsToDist(rightJag.getPosition());
     }
-
     public double getRightSpeed() throws CANTimeoutException {
 	return -convertEncoderReading(rightJag.getSpeed());
     }
@@ -55,7 +51,6 @@ public class DriveTrain {
     public double rotationsToDist(double reading) {
 	return reading * Math.PI * (2.0/3.0);
     }
-    
     public double convertEncoderReading(double reading) {
 	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
