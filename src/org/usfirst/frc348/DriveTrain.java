@@ -36,15 +36,6 @@ public class DriveTrain {
 	prevAngle = 0;
     }
     
-    public double getMaxSpeed() throws CANTimeoutException {
-	/*
-	  `maxSpeed' is in rotations per second
-	  `returns' uses fancy math to convert it to feet per second
-	*/
-	double maxSpeed = Math.max(leftJag.getSpeed(), rightJag.getSpeed());
-	return convertEncoderReading(maxSpeed);
-    }
-
     public double getLeftDist() throws CANTimeoutException {
 	return rotationsToDist(leftJag.getPosition());
     }
