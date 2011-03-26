@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm implements PIDSource {
     public CANJaguar jag;
     protected Servo servo;
-    protected DigitalInput limit, banner;
+    protected DigitalInput limit;
     public PIDController pid;
     protected double target;
     protected boolean magicMode = true, placing = false;
@@ -27,7 +27,6 @@ public class Arm implements PIDSource {
     	
     	servo = new Servo(servoPort);
     	limit = new DigitalInput(limitPort);
-    	banner = new DigitalInput(bannerPort);
     	
     	pid = new PIDController(-4, 0, 0, this, jag);
     	pid.enable();
@@ -87,10 +86,6 @@ public class Arm implements PIDSource {
 	try {
 	    return jag.getPosition() - zero;
 	} catch (CANTimeoutException e) { e.printStackTrace(); return zero; }
-    }
-
-    public boolean atPole() {
-	return banner.get();
     }
 
     public boolean atBottom() {
