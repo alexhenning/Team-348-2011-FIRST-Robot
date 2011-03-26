@@ -60,21 +60,6 @@ public class DriveTrain {
 	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
 
-    public boolean isStopped() throws CANTimeoutException {
-	return (leftJag.getSpeed() != 0 &&
-		rightJag.getSpeed() != 0);
-    }
-    
-    public void stop() throws CANTimeoutException {
-	if (leftJag.getSpeed() > 20 &&
-	    rightJag.getSpeed() > 20) {
-	    leftJag.setX(-.2);
-	    rightJag.setX(-.2);
-	} else
-	    leftJag.setX(0);
-	    rightJag.setX(0);
-	}
-    
     public void drive(double left, double right, Gyro gyro) throws CANTimeoutException {
 	if (Math.abs(left-right) <= .1) {
 	    // Compensate and Drive straight
