@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.DriverStationEnhancedIO.EnhancedIOException;
 public class BreakoutBox {
 	protected DriverStation ds;
 	protected int armPos = 3;
-	protected boolean openGrabber, closeGrabber, enableMinibot, releaseMinibot;
+	protected boolean openGrabber, closeGrabber, armControlMode, releaseMinibot;
 		
 	public BreakoutBox() {
 		ds = DriverStation.getInstance();
@@ -25,29 +25,15 @@ public class BreakoutBox {
 			armPos = 3;
 		 }
 		 
-		 enableMinibot = !ds.getDigitalIn(6);
+		 armControlMode = !ds.getDigitalIn(6);
 		 releaseMinibot = ds.getDigitalIn(8);
 		 
 		 openGrabber = !ds.getDigitalIn(7);
 		 closeGrabber = !ds.getDigitalIn(5);
 	}
 
-	public int getArmPosition() {
-		return armPos;
-	}
-
-	
-	
-	public boolean canReleaseMinibot() {
-		return enableMinibot;
-	}
-	
-	public boolean releaseMinibotp() {
-		return releaseMinibot;
-	}
-
 	public void debugPrint() {
 		System.out.println("Arm position: "+armPos+" Open? "+openGrabber+" Close? "+closeGrabber+
-				" Minibot enabled? "+enableMinibot+" Release? "+releaseMinibot);
+				" Minibot enabled? "+armControlMode+" Release? "+releaseMinibot);
 	}
 }

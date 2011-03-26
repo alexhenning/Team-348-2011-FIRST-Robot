@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class JagBot extends IterativeRobot {
     private String SIG = "[JagBot] ";
     boolean DEBUG = true; int debugCounter = 0;
-    boolean MANUAL_ARM_CONTROL = true;
     public BreakoutBox breakout;
     public Joystick leftJoy, rightJoy;
     public DriveTrain dt;
@@ -78,9 +77,8 @@ public class JagBot extends IterativeRobot {
 	    arm.close();
 	}
 	
-	MANUAL_ARM_CONTROL = breakout.enableMinibot;
 	try {
-	    if (!MANUAL_ARM_CONTROL) {
+	    if (!breakout.armControlMode) {
 		arm.setMagicMode();
 		if (breakout.openGrabber) {
 		    arm.placePiece();
