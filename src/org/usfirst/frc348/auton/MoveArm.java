@@ -5,7 +5,7 @@
 package org.usfirst.frc348.auton;
 
 import org.usfirst.frc348.JagBot;
-
+import org.usfirst.frc348.auton.Stage;
 import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
