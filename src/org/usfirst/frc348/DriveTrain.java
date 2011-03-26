@@ -60,41 +60,6 @@ public class DriveTrain {
 	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
 
-    public void turn180(Gyro gyro) throws CANTimeoutException {
-	// while (!isStopped()) {
-	//     stop();
-	//     System.out.println("Stopping.");
-	// }
-	int cnt = 0;
-	double error = 0, accumError = 0, prevError = 1, derror;
-	double P = .48, I = 0, D = 0;
-	    
-	gyro.reset();
-	try {
-	    leftJag.setX(-1);
-	    rightJag.setX(1);
-	} catch (CANTimeoutException e) { e.printStackTrace(); }
-	double stopTime = System.currentTimeMillis() + 3000;
-	    
-	// while (Math.abs(gyro.getAngle() - 180) > 1) {
-	while (System.currentTimeMillis() < stopTime) {
-	    error = (180 - gyro.getAngle()) / 180;
-	    accumError += error;
-	    derror = prevError - error;
-	    prevError = error;
-	    
-	    if (cnt%10 == 0) {
-		System.out.println("Error: "+error+" AccumError: "+accumError+" dError: "+derror);
-	    } cnt++;
-	    SmartDashboard.log(gyro.getAngle(), "Gyro");
-	    
-	    try {
-		leftJag.setX( -(P * error + I * accumError + D * derror));
-		rightJag.setX((P * error + I * accumError + D * derror));
-	    } catch (CANTimeoutException e) { e.printStackTrace(); }
-	}
-    }
-
     public boolean isStopped() throws CANTimeoutException {
 	return (leftJag.getSpeed() != 0 &&
 		rightJag.getSpeed() != 0);
