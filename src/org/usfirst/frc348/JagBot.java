@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
@@ -20,7 +19,7 @@ public class JagBot extends IterativeRobot {
     public DriveTrain dt;
     public Arm arm;
     public Gyro gyro;
-    protected Servo deployment;
+    protected Deployment deployment;
     public Autonomous auton;
     public AxisCamera ac;
     
@@ -37,7 +36,7 @@ public class JagBot extends IterativeRobot {
 	dt = new DriveTrain(3, 4);
 	arm = new Arm(2, 1, 1, 2);
 	gyro = new Gyro(2);
-	deployment = new Servo(2);
+	deployment = new Deployment(2, 0.4);
 	auton = new Autonomous(this, 4, 3);
 
 	ac = AxisCamera.getInstance();
@@ -57,6 +56,7 @@ public class JagBot extends IterativeRobot {
     public long startTime;
     public void teleopInit() {
 	startTime = System.currentTimeMillis();
+	deployment.disable();
     }
     
     public void teleopPeriodic() {
@@ -92,10 +92,11 @@ public class JagBot extends IterativeRobot {
 	} catch (CANTimeoutException e) { e.printStackTrace(); }
 
 	if (breakout.releaseMinibot) {
-	    deployment.set(0);
+	    deployment.enable();
 	} else {
-	    deployment.set(1);
+	    deployment.disable();
 	}
+	deployment.periodic();
 
 	arm.periodic();
 	//	updateDashboard();
