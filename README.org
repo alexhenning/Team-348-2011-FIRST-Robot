@@ -1,0 +1,9 @@
+
+* Arm Positions
+
+| Num | Peg           | Height |
+|   1 | Top Center    |  1.710 |
+|   2 | Top Outer     |  1.620  |
+|   3 | Middle Center |  0.915 |
+|   4 | Middle Outer  |  0.700 |
+|   5 | Feeder        |        |
