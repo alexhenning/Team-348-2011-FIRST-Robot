@@ -26,7 +26,7 @@ public class PlacePiece implements Stage {
 	bot.arm.placePiece();
 	if (timer > 20) {
 	    try {
-		bot.dt.drive(-.25, -.25, bot.gyro);
+		bot.dt.drive(-.25, -.25);
 	    } catch (CANTimeoutException e) {
 		e.printStackTrace();
 		error = true;

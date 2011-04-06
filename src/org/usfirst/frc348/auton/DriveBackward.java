@@ -41,7 +41,7 @@ public class DriveBackward implements Stage {
 	    double left = -1 * ((distance - leftDist) / distance);
 	    double right = -1 * ((distance - rightDist) / distance);
 	    
-	    bot.dt.drive(left, right, bot.gyro);
+	    bot.dt.drive(left, right);
 	} catch (CANTimeoutException e) { 
 	    e.printStackTrace();
 	    error = true;

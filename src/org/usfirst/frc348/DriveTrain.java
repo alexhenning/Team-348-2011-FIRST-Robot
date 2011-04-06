@@ -1,16 +1,11 @@
 package org.usfirst.frc348;
 
 import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.SmartDashboard;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 public class DriveTrain {
     protected CANJaguar leftJag, rightJag;
-    double leftPrevOut, rightPrevOut;
-    long prevTime;
-    double prevAngle;
-    public double turnSpeed;
     
     public DriveTrain(int leftID, int rightID) {
 	leftJag = Utils.getJaguar(leftID);
@@ -27,11 +22,6 @@ public class DriveTrain {
 	} catch (CANTimeoutException e) {
 	    e.printStackTrace();
 	}
-	
-	leftPrevOut = 0;
-	rightPrevOut = 0;
-	prevTime = System.currentTimeMillis();
-	prevAngle = 0;
     }
     
     public double getLeftDist() throws CANTimeoutException {
@@ -55,7 +45,7 @@ public class DriveTrain {
 	return reading * Math.PI * (2.0/3.0) / 60.0;
     }
 
-    public void drive(double left, double right, Gyro gyro) throws CANTimeoutException {
+    public void drive(double left, double right) throws CANTimeoutException {
 	if (Math.abs(left-right) <= .1) {
 	    // Compensate and Drive straight
 	    if (left >= 0) {
@@ -85,12 +75,6 @@ public class DriveTrain {
 		right *= .8;
 	    }
 	}
-	
-	long time = System.currentTimeMillis();
-	double angle = gyro.getAngle();
-	turnSpeed = (angle - prevAngle) / ((double) ((time - prevTime))) * 1000;
-	prevTime = time;
-	prevAngle = angle;
 	
 	leftJag.setX( left );
 	rightJag.setX( right );

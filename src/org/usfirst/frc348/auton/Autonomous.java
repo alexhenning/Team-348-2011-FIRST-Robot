@@ -72,8 +72,6 @@ public class Autonomous {
     }
 
     public void periodic() {
-	System.out.println("HighBit: "+highBit.get()+
-			   " LowBit: "+lowBit.get());
 	if (current < auton.length) {
 	    auton[current].periodic();
 	    if (auton[current].isDone()) {

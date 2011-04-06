@@ -4,7 +4,6 @@ import org.usfirst.frc348.auton.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStationEnhancedIO.EnhancedIOException;
 import edu.wpi.first.wpilibj.DriverStationLCD;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SmartDashboard;
@@ -18,7 +17,6 @@ public class JagBot extends IterativeRobot {
     public Joystick leftJoy, rightJoy;
     public DriveTrain dt;
     public Arm arm;
-    public Gyro gyro;
     protected Deployment deployment;
     public Autonomous auton;
     public AxisCamera ac;
@@ -35,7 +33,6 @@ public class JagBot extends IterativeRobot {
 	
 	dt = new DriveTrain(3, 4);
 	arm = new Arm(2, 1, 1, 2);
-	gyro = new Gyro(2);
 	deployment = new Deployment(2, 0.4);
 	auton = new Autonomous(this, 4, 3);
 
@@ -68,7 +65,7 @@ public class JagBot extends IterativeRobot {
 	double left = -leftJoy.getY();
 	double right = -rightJoy.getY();
 	try {
-	    dt.drive(left, right, gyro);
+	    dt.drive(left, right);
 	} catch (CANTimeoutException e1) { e1.printStackTrace(); }
 
 	if (breakout.closeGrabber || breakout.openGrabber) {
