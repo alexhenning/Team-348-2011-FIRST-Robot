@@ -1,0 +1,5 @@
+suite/
+*~
+*.class
+j2meclasses/
+build/
