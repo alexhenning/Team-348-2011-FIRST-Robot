@@ -42,8 +42,9 @@ public class DriveForward implements Stage {
 
 	    double left = gain * ((distance - leftDist) / distance);
 	    double right = gain * ((distance - rightDist) / distance);
+	    double out = (left + right) / 2;
 	    
-	    bot.dt.drive(left, right);
+	    bot.dt.drive(out, out);
 	} catch (CANTimeoutException e) { 
 	    e.printStackTrace();
 	    error = true;

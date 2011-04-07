@@ -42,12 +42,14 @@ public class JagBot extends IterativeRobot {
             
     public void autonomousInit() {
     	auton.restart();
+	deployment.disable();
     }
     
     public void autonomousPeriodic() {
     	auton.periodic();
 	arm.periodic();
 	updateDashboard();
+	deployment.periodic();
     }
 
     public long startTime;

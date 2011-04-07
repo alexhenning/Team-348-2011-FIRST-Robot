@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.Jaguar;
 public class Deployment {
     Jaguar jag;
     double gain;
-    boolean running, direction;
-    long startTime;
+    boolean running;
     
     public Deployment(int motorPort, double gain) {
 	jag = new Jaguar(motorPort);
@@ -16,14 +15,9 @@ public class Deployment {
 
     public void periodic() {
 	if (running) {
-	    jag.set(direction ? gain : -gain);
-
-	    if ((System.currentTimeMillis() - startTime) > 2000) {
-		direction = !direction;
-	    }
+	    jag.set(gain);
 	} else {
-	    startTime = System.currentTimeMillis();
-	    direction = true;
+	    jag.set(0);
 	}
     }
 
