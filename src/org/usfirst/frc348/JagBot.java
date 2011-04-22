@@ -33,7 +33,7 @@ public class JagBot extends IterativeRobot {
 	
 	dt = new DriveTrain(3, 4);
 	arm = new Arm(2, 1, 1, 2);
-	deployment = new Deployment(2, 0.4);
+	deployment = new Deployment(2, 0.2);
 	auton = new Autonomous(this, 4, 3);
 
 	ac = AxisCamera.getInstance();

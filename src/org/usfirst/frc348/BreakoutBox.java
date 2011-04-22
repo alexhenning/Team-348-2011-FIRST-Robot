@@ -26,7 +26,7 @@ public class BreakoutBox {
 		 }
 		 
 		 armControlMode = !ds.getDigitalIn(6);
-		 releaseMinibot = ds.getDigitalIn(8);
+		 releaseMinibot = !ds.getDigitalIn(8);
 		 
 		 openGrabber = !ds.getDigitalIn(7);
 		 closeGrabber = !ds.getDigitalIn(5);

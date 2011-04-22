@@ -28,7 +28,8 @@ public class Arm implements PIDSource {
     	servo = new Servo(servoPort);
     	limit = new DigitalInput(limitPort);
     	
-    	pid = new PIDController(-4, 0, 0, this, jag);
+    	pid = new PIDController(-8, 0, 0, this, jag);
+    	pid.setOutputRange(-1, .75);
     	pid.enable();
     }
 
