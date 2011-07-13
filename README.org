@@ -1,4 +1,43 @@
 
+* Introduction
+This is a version of team 348's robot code for the 2011 season. This is the final version used when we lost in quaterfinals at the Boston Regional. I am *documenting* for a number of people interested in learning how to program FIRST robots. At this point, I will only be documenting and commenting, not improving the code. The reason for this is not that it's perfect, far from it, but instead because coding for FIRST robotics has some unique time constraints. 6 weeks to build and ship the robot, and only a fraction of that can be used to test the code. Then at the competition, if something goes wrong you have to fix it ASAP. Given these constraints, code evolves as the season progresses and this is a snapshot of the code at the end of the season with improved documentation.
+
+*On comments:* The code you'll view will be much more heavily commented than the competition version. I am not against commenting, but under such time constraints I've found comments often fall out of date and can become misleading. I recommend that you comment anything tricky or complex. Beyond that, how you comment is your own choice, just your comments up to date.
+
+* Overview
+This code is intended to run on a FIRST robot for the 2011 challenge Logomotion. If you are not familiar with the game, I recomend you watch the game animation first. See:  After that, if you have further questions on the basis of the game look up old matches and the official rules manual
+
+** The robot
+This code does not operate in a fantasy land where thought becomes reality, instead, all of it's decisions must be actuated by the robot. The robot has three primary system: the drive train, which allows it to drive; the arm with the grabber, which allows it to manipulate game pieces; and the minibot deployment that allows the minibot to deploy.
+
+*** The Drive Train
+The drive train on this robot is capable of going 20ft/sec and is very finicky, so alot of the code is improving control so that the driver can actually drive. It has one Cim motor powering the left and another powering the right. There is an encoder that allows you to measure speed and distance hooked up (indirectly) to each Cim.
+
+*** The Arm
+The arm is a two stage elevator pulled up by a winch. The winch is powered by a window motor. An encoder is hooked up to the winch so that the height can be measured and it can go to the preset heights of the pegs. It can only reach the middle and upper row in addition to the feeder station.
+
+The grabber is a piece of aluminum lifted by a servo to let pieces in and then dropped to hold pieces while driving.
+
+*** Minibot Deployment
+The minibot deployment system is draw slides propelled forward by constant force springs when a latch is released. The latch is released by spinning a window motor.
+
+** The Controls
+There are two controllers during a match: the driver and the secondary driver. The driver handles driving the robot while the secondary driver handles controlling the arm and the minibot deployment.
+
+*** Driver Controls
+The driver has two joysticks and drives the robot through a method known as tank drive. In tank drive the left joystick controls the left sides speed and the right joystick controls the right side speed. By varying the relative speeds of left and right, the robot can turn in place or while moving forward.
+
+*** Secondary Driver Controls
+The secondary driver controls where a custom box that we made and wired the PSOC controller provided by FIRST. The controls include a 5 position rotary switch for controlling the height of the arm. A switch for over-riding control of the arm. A switch for Deploying the minibot. A three-position switch for getting pieces from the feeder station and placing them on the pegs
+
+* Appendix
+** Encoders
+** CAN
+** Jaguars
+** Servos
+** PWM
+** PSOC Micro-controller
+
 * Arm Positions
 
 | Num | Peg           | Height |
