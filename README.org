@@ -1,3 +1,10 @@
+#+TITLE:     README
+#+AUTHOR:    Alex Henning
+#+EMAIL:     elcron@gmail.com
+#+DATE:      2011-07-13 Wed
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+
 THIS IS A ROUGH DRAFT -- Editing will be done -- Pictures will be added
 
 * Introduction
@@ -6,8 +13,10 @@ This is a version of team 348's robot code for the 2011 season. This is the fina
 *On comments:* The code you'll view will be much more heavily commented than the competition version. I am not against commenting, but under such time constraints I've found comments often fall out of date and can become misleading. I recommend that you comment anything tricky or complex. Beyond that, how you comment is your own choice, just your comments up to date.
 
 This code is intended to run on a FIRST robot for the 2011 challenge Logomotion. If you are not familiar with the game, I recomend you watch the game animation first. See: [[http://www.youtube.com/watch?v=cSc8FWfJQlU][The game animation]] After that, if you have further questions on the basis of the game look up old matches and the official rules manual
+
 * The Robot
 This code does not operate in a fantasy land where thought becomes reality, instead, all of it's decisions must be actuated by the robot. The robot has three primary system: the drive train, which allows it to drive; the arm with the grabber, which allows it to manipulate game pieces; and the minibot deployment that allows the minibot to deploy.
+
 ** The Drive Train
 The drive train on this robot is capable of going 20ft/sec and is very finicky, so alot of the code is improving control so that the driver can actually drive. It has one Cim motor powering the left and another powering the right. There is an encoder that allows you to measure speed and distance hooked up (indirectly) to each Cim.
 
@@ -21,6 +30,7 @@ The minibot deployment system is draw slides propelled forward by constant force
 
 * The Controls
 There are two controllers during a match: the driver and the secondary driver. The driver handles driving the robot while the secondary driver handles controlling the arm and the minibot deployment.
+
 ** Driver Controls
 The driver has two joysticks and drives the robot through a method known as tank drive. In tank drive the left joystick controls the left sides speed and the right joystick controls the right side speed. By varying the relative speeds of left and right, the robot can turn in place or while moving forward.
 
@@ -29,7 +39,9 @@ The secondary driver controls where a custom box that we made and wired the PSOC
 
 * The Code
 Now that you understand the robot, you can understand the code. All of the code that I wrote is in =src/org/usfirst/frc348=. First, look at =JagBot.java=, it's the primary class that represents the robot. After that, you're free to look at the other classes in any order you want. Lastly, you can look at autonomous, which is own section due to it's relative complexity.
+
 ** JagBot.java
+The two most important function are =autonPeriodic= and =teleopPeriodic=, they are the "main loop" for the autonomous and human operated periods respectively. For the full story, read the code + comments.
 ** DriveTrain.java
 ** Arm.java
 ** BreakoutBox.java
